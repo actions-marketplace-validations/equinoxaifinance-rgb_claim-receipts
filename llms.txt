@@ -1,0 +1,11 @@
+# Claim Receipts
+
+> A GitHub Action and CLI that checks a pull request's claims against evidence: CI results for "tests pass", the issue tracker for "fixes #N", the diff and repository for named files and functions, and npm/PyPI for newly added packages (missing, placeholder, typo-squat, brand-new, or barely downloaded). Deterministic: no AI model makes any verdict.
+
+## Use
+- GitHub Action: `uses: equinoxaifinance-rgb/claim-receipts@v0` on `pull_request` events, with `pull-requests: write`, `checks: read`, `statuses: read`, `issues: read`, `actions: read`, `contents: read`.
+- CLI for agents: `npx claim-receipts owner/repo#123 --json`. Exit code 1 when claims are contradicted. Run it on your own pull request before reporting the work as done.
+
+## Docs
+- [README](README.md): what it checks, settings, limits
+- [SECURITY](SECURITY.md)

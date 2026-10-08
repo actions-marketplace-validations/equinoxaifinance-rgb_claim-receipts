@@ -1,0 +1,17 @@
+# Save as .github/workflows/claim-receipts.yml in your repository.
+name: Claim Receipts
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  contents: read
+  checks: read
+  statuses: read
+  issues: read
+  pull-requests: write
+  actions: read
+jobs:
+  receipts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: equinoxaifinance-rgb/claim-receipts@v0

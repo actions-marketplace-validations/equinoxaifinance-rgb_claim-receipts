@@ -1,0 +1,52 @@
+name: 'Claim Receipts'
+description: 'Checks what a pull request claims (tests pass, fixes #12, new packages) against real evidence. No proof, no done.'
+author: 'Claim Receipts'
+branding:
+  icon: 'check-square'
+  color: 'green'
+inputs:
+  github-token:
+    description: 'Token used to read the pull request and post the receipts comment.'
+    default: ${{ github.token }}
+  fail-on:
+    description: 'When to fail the check: never, contradicted (default), unproven, or warning.'
+    default: 'contradicted'
+  comment:
+    description: 'Post (and keep updating) one receipts comment on the pull request.'
+    default: 'true'
+  wait-minutes:
+    description: 'How long to wait for other checks to finish before judging a "tests pass" claim.'
+    default: '10'
+  poll-seconds:
+    description: 'How often to look at running checks while waiting.'
+    default: '20'
+  test-checks:
+    description: 'Optional regular expression. Only checks whose name matches count as test evidence.'
+    default: ''
+  ignore-checks:
+    description: 'Comma-separated check names to ignore.'
+    default: ''
+  min-package-age-days:
+    description: 'Flag newly added packages first published fewer than this many days ago.'
+    default: '30'
+  check-files:
+    description: 'Check that files and functions named in the description exist.'
+    default: 'true'
+  check-dependencies:
+    description: 'Check that newly added npm and PyPI packages exist.'
+    default: 'true'
+  pr-number:
+    description: 'Pull request number. Only needed for workflow_dispatch or other non-PR events.'
+    default: ''
+outputs:
+  contradicted:
+    description: 'Number of claims the evidence contradicts.'
+  unproven:
+    description: 'Number of claims with no evidence either way.'
+  verified:
+    description: 'Number of claims proven by evidence.'
+  report-json:
+    description: 'All receipts as JSON.'
+runs:
+  using: 'node24'
+  main: 'src/action.mjs'

@@ -1,0 +1,18 @@
+# Dogfooding: the action checks this repository's own pull requests.
+name: receipts
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  contents: read
+  checks: read
+  statuses: read
+  issues: read
+  actions: read
+  pull-requests: write
+jobs:
+  receipts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
