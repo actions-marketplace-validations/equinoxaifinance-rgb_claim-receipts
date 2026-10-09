@@ -87,10 +87,12 @@ export function createClient({ token, apiUrl = 'https://api.github.com', fetchIm
         return null;
       }
     },
-    async upsertComment(repo, number, body) {
+    /** Updates our earlier comment, or posts one. With createIfMissing false, only an existing comment is updated. */
+    async upsertComment(repo, number, body, { createIfMissing = true } = {}) {
       const comments = await paginate(`/repos/${repo}/issues/${number}/comments`);
       const mine = comments.find((c) => typeof c.body === 'string' && c.body.includes(COMMENT_MARKER));
       if (mine) return json('PATCH', `/repos/${repo}/issues/comments/${mine.id}`, { body });
+      if (!createIfMissing) return null;
       return json('POST', `/repos/${repo}/issues/${number}/comments`, { body });
     },
   };
