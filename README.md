@@ -33,6 +33,13 @@ Before release, Claim Receipts was run read-only on 174 recent public pull reque
 - In one, the agent wrote that all `devCheck` tasks pass; on GitHub, `devCheck` and four other jobs had failed.
 - Every red verdict was checked by hand. False alarms found in the first round (billing-blocked CI, label bots, short file names) were fixed before release, and the results were confirmed on pull requests from repositories the fixes were never tuned on.
 
+## Two ways to run it
+
+- **This GitHub Action** (free, open source): add one workflow file to each repository. Instructions below.
+- **The hosted GitHub App** ([install](https://github.com/apps/claim-receipts)): install once for a whole organisation, with no workflow files and no Actions minutes. It adds a "Claim Receipts" check to every pull request, and a **proof-rate scorecard** per author and per AI agent: how many of their claims came with proof over the last 90 days. It is free on public repositories. Private repositories cost $49 per organisation per month after a 14-day free trial.
+
+Both use the same checks.
+
 ## Set up (2 minutes)
 
 Add `.github/workflows/claim-receipts.yml`:
@@ -92,9 +99,11 @@ GitHub gives pull requests from forks a read-only token, so the comment can't be
 ## Use it from the command line, or from your agent
 
 ```bash
-npx claim-receipts owner/repo#123
-npx claim-receipts https://github.com/owner/repo/pull/123 --json --fail-on unproven
+npx github:equinoxaifinance-rgb/claim-receipts owner/repo#123
+npx github:equinoxaifinance-rgb/claim-receipts https://github.com/owner/repo/pull/123 --json --fail-on unproven
 ```
+
+(It runs straight from this repository; no npm account or install needed. Node 20 or newer.)
 
 Set `GITHUB_TOKEN` for private repositories. The exit code is `1` when the claims fail your `--fail-on` level, so a coding agent can run it on its own pull request **before** it tells you it's done.
 

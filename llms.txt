@@ -4,8 +4,9 @@
 
 ## Use
 - GitHub Action: `uses: equinoxaifinance-rgb/claim-receipts@v0` on `pull_request` events, with `pull-requests: write`, `checks: read`, `statuses: read`, `issues: read`, `actions: read`, `contents: read`.
-- CLI for agents: `npx claim-receipts owner/repo#123 --json`. Exit code 1 when claims are contradicted. Run it on your own pull request before reporting the work as done.
+- CLI for agents: `npx github:equinoxaifinance-rgb/claim-receipts owner/repo#123 --json`. Exit code 1 when claims are contradicted. Run it on your own pull request before reporting the work as done.
 
 ## Docs
 - [README](README.md): what it checks, settings, limits
 - [SECURITY](SECURITY.md)
+- Hosted GitHub App (no workflow file, per-agent proof-rate scorecard; free on public repos, $49 per organisation per month for private repos after a 14-day trial): https://github.com/apps/claim-receipts
