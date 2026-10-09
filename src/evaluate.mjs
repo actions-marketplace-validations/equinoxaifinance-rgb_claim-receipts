@@ -57,7 +57,16 @@ export function normaliseChecks(checkRuns = [], statuses = [], { selfJobId, self
       detail: s.state,
     });
   }
-  return list.filter((c) => !ignoreSet.has(String(c.name).toLowerCase()) && (!include || include.test(c.name)));
+  // The same job often runs twice on one commit (on push and on pull_request). Count identical results once;
+  // differing results (one failed, one passed) both stay, so a failure is never hidden.
+  const seen = new Set();
+  return list.filter((c) => {
+    if (ignoreSet.has(String(c.name).toLowerCase()) || (include && !include.test(c.name))) return false;
+    const key = `${c.name}\u0000${c.state}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 export function judgeTestClaims(claims, allChecks) {

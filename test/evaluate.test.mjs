@@ -118,3 +118,10 @@ test('collectReceipts: gives up waiting after the deadline and reports pending',
   assert.equal(result.receipts[0].verdict, 'pending');
   assert.equal(sleeps, 3);
 });
+
+test('the same job run twice on one commit (push and pull_request) counts once, unless the results differ', () => {
+  const passed = (id) => ({ id, name: 'test (20)', status: 'completed', conclusion: 'success' });
+  assert.equal(normaliseChecks([passed(1), passed(2)]).length, 1);
+  const failed = { id: 3, name: 'test (20)', status: 'completed', conclusion: 'failure', started_at: '2026-10-09T10:00:00Z', completed_at: '2026-10-09T10:05:00Z' };
+  assert.deepEqual(normaliseChecks([passed(1), failed]).map((c) => c.state), ['passed', 'failed']);
+});
