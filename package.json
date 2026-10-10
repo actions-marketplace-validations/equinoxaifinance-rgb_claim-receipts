@@ -1,6 +1,6 @@
 {
   "name": "claim-receipts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Checks what a pull request claims against real evidence: CI results, linked issues, files, functions and package registries.",
   "type": "module",
   "bin": { "claim-receipts": "bin/claim-receipts.mjs" },
