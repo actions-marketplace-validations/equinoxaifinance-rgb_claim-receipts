@@ -69,3 +69,25 @@ test('run(): no pull request in the event is a no-op, not a failure', async () =
   assert.equal(exitCode, 0);
   assert.match(logs[0], /nothing to check/);
 });
+
+test('the Action and the hosted app each update only their own receipt comment', async () => {
+  const { createClient, COMMENT_MARKER } = await import('../src/github.mjs');
+  const calls = [];
+  const comments = [
+    { id: 1, body: `${COMMENT_MARKER} app`, performed_via_github_app: { slug: 'claim-receipts' } },
+    { id: 2, body: `${COMMENT_MARKER} action`, performed_via_github_app: { slug: 'github-actions' } },
+  ];
+  const fetchImpl = async (url, init = {}) => {
+    calls.push(`${init.method || 'GET'} ${new URL(url).pathname}`);
+    return { ok: true, status: 200, headers: new Headers(), json: async () => (url.includes('/comments?') || url.endsWith('/comments') ? comments : { id: 3 }), text: async () => '' };
+  };
+  const client = createClient({ token: 't', apiUrl: 'https://api.example', fetchImpl });
+  await client.upsertComment('o/r', 1, 'x');
+  assert.ok(calls.includes('PATCH /repos/o/r/issues/comments/2'), 'the Action edits its own comment');
+  calls.length = 0;
+  await client.upsertComment('o/r', 1, 'x', { app: 'claim-receipts' });
+  assert.ok(calls.includes('PATCH /repos/o/r/issues/comments/1'), 'the app edits its own comment');
+  calls.length = 0;
+  await client.upsertComment('o/r', 1, 'x', { app: 'someone-else' });
+  assert.ok(calls.includes('POST /repos/o/r/issues/1/comments'), 'never edits a comment another app posted');
+});

@@ -26,7 +26,7 @@ export function neverStarted(run) {
 
 // Checks that are about process, deploys, security scanning or AI review, not about whether the tests pass.
 // They never count as test evidence either way (and are never waited on).
-const NOT_TEST_EVIDENCE = /label|auto-?merge|codecov|coverage upload|deploy|preview|vercel|netlify|cloudflare pages|\bcla\b|\bdco\b|semantic|pr title|title check|stale|triage|disposition|review|security agent|dependabot|greet|welcome|size-label|changeset|release-please|analy[sz]e|codeql|quiz|sonarcloud|snyk|socket security|gitguardian|license\/cla|conventional commit|assign|project board/i;
+const NOT_TEST_EVIDENCE = /claim[- ]?receipts|^receipts$|label|auto-?merge|codecov|coverage upload|deploy|preview|vercel|netlify|cloudflare pages|\bcla\b|\bdco\b|semantic|pr title|title check|stale|triage|disposition|review|security agent|dependabot|greet|welcome|size-label|changeset|release-please|analy[sz]e|codeql|quiz|sonarcloud|snyk|socket security|gitguardian|license\/cla|conventional commit|assign|project board/i;
 
 export function isTestEvidence(check) {
   return !NOT_TEST_EVIDENCE.test(String(check.name));

@@ -125,3 +125,11 @@ test('the same job run twice on one commit (push and pull_request) counts once, 
   const failed = { id: 3, name: 'test (20)', status: 'completed', conclusion: 'failure', started_at: '2026-10-09T10:00:00Z', completed_at: '2026-10-09T10:05:00Z' };
   assert.deepEqual(normaliseChecks([passed(1), failed]).map((c) => c.state), ['passed', 'failed']);
 });
+
+test('another Claim Receipts check (the hosted app, or the Action job) is never test evidence, so they never wait on each other', () => {
+  const running = (name) => ({ id: 9, name, status: 'in_progress', conclusion: null });
+  for (const name of ['Claim Receipts', 'claim-receipts', 'receipts']) {
+    const [c] = normaliseChecks([running(name)]);
+    assert.equal(judgeTestClaims(['All tests pass.'], [c])[0].verdict === 'pending', false, name);
+  }
+});

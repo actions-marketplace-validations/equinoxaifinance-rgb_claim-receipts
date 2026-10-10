@@ -87,10 +87,18 @@ export function createClient({ token, apiUrl = 'https://api.github.com', fetchIm
         return null;
       }
     },
-    /** Updates our earlier comment, or posts one. With createIfMissing false, only an existing comment is updated. */
-    async upsertComment(repo, number, body, { createIfMissing = true } = {}) {
+    /**
+     * Updates our earlier comment, or posts one. With createIfMissing false, only an existing comment is updated.
+     * `app` is the GitHub App slug posting the comment (the hosted app). Without it (the Action), comments posted by
+     * some other app are left alone, so the Action and the hosted app never try to edit each other's receipt.
+     */
+    async upsertComment(repo, number, body, { createIfMissing = true, app } = {}) {
       const comments = await paginate(`/repos/${repo}/issues/${number}/comments`);
-      const mine = comments.find((c) => typeof c.body === 'string' && c.body.includes(COMMENT_MARKER));
+      const byUs = (c) => {
+        const slug = c.performed_via_github_app?.slug;
+        return app ? slug === app : !slug || slug === 'github-actions';
+      };
+      const mine = comments.find((c) => typeof c.body === 'string' && c.body.includes(COMMENT_MARKER) && byUs(c));
       if (mine) return json('PATCH', `/repos/${repo}/issues/comments/${mine.id}`, { body });
       if (!createIfMissing) return null;
       return json('POST', `/repos/${repo}/issues/${number}/comments`, { body });
