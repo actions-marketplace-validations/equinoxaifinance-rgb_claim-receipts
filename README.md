@@ -8,7 +8,7 @@ Claim Receipts reads the description, finds the claims it can check, and posts o
 
 | | Claim | Evidence |
 |---|---|---|
-| ❌ Contradicted | “All tests pass.” | 1 of 3 checks failed: [e2e](#). |
+| ❌ Contradicted | “All tests pass.” | 1 of 3 checks failed: e2e. |
 | ❌ Contradicted | “Fixes #999” | #999 does not exist in this repository. |
 | ❌ Contradicted | adds `huggingface-cli` (PyPI) | No package with this name exists on PyPI. AI tools often invent package names, and attackers register them (“slopsquatting”). |
 | 🟡 Check this | adds `react-codeshift` (npm) | Exists, but its registry page says it is a placeholder with no real code. |
@@ -36,7 +36,7 @@ Before release, Claim Receipts was run read-only on 174 recent public pull reque
 ## Two ways to run it
 
 - **This GitHub Action** (free, open source): add one workflow file to each repository. Instructions below.
-- **The hosted GitHub App** ([install](https://github.com/apps/claim-receipts)): install once for a whole organisation, with no workflow files and no Actions minutes. It adds a "Claim Receipts" check to every pull request, and a **proof-rate scorecard** per author and per AI agent: how many of their claims came with proof over the last 90 days. It is free on public repositories. Private repositories cost $49 per organisation per month after a 14-day free trial.
+- **The hosted GitHub App** ([install](https://github.com/apps/claim-receipts)): install once for a whole organisation, with no workflow files and no Actions minutes. It adds a "Claim Receipts" check to every pull request, and a **proof-rate scorecard** per author and per AI agent: how many of their claims came with proof over the last 90 days. It is free on public repositories. Private repositories cost $49 per organisation per month after a 14-day free trial. No card is needed for the trial. To subscribe, use the Subscribe link in the trial note the app adds to your pull requests.
 
 Both use the same checks.
 
