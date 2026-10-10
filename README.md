@@ -36,7 +36,7 @@ Before release, Claim Receipts was run read-only on 174 recent public pull reque
 ## Two ways to run it
 
 - **This GitHub Action** (free, open source): add one workflow file to each repository. Instructions below.
-- **The hosted GitHub App** ([install](https://github.com/apps/claim-receipts)): install once for a whole organisation, with no workflow files and no Actions minutes. It adds a "Claim Receipts" check to every pull request, and a **proof-rate scorecard** per author and per AI agent: how many of their claims came with proof over the last 90 days. It is free on public repositories. Private repositories cost $49 per organisation per month after a 14-day free trial. No card is needed for the trial. To subscribe, use the Subscribe link in the trial note the app adds to your pull requests.
+- **The hosted GitHub App** ([install](https://github.com/apps/claim-receipts)): install once for a whole organisation, with no workflow files and no Actions minutes. It adds a "Claim Receipts" check to every pull request, and a **proof-rate scorecard** per author and per AI agent: how many of their claims came with proof over the last 90 days. It is free on public and private repositories, with no trial and no card.
 
 Both use the same checks.
 

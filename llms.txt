@@ -9,4 +9,4 @@
 ## Docs
 - [README](README.md): what it checks, settings, limits
 - [SECURITY](SECURITY.md)
-- Hosted GitHub App (no workflow file, per-agent proof-rate scorecard; free on public repos, $49 per organisation per month for private repos after a 14-day trial): https://github.com/apps/claim-receipts
+- Hosted GitHub App (no workflow file, per-agent proof-rate scorecard; free on public and private repositories): https://github.com/apps/claim-receipts
